@@ -1,13 +1,12 @@
-package com.shubhzgang.dayone;
+package com.shubhzgang;
 
-import java.io.File;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Scanner;
 
-public class PuzzleOne {
+public class DayOne {
     public static void main(String[] args) {
         int n = 1000;
         PriorityQueue<Integer> pq1 = new PriorityQueue<>();
@@ -17,7 +16,7 @@ public class PuzzleOne {
         int prevCount;
 
         // file reading
-        InputStream input = PuzzleOne.class.getClassLoader().getResourceAsStream("puzzle_one_input.txt");
+        InputStream input = DayOne.class.getClassLoader().getResourceAsStream("puzzle_one_input.txt");
         Scanner scanner = new Scanner(input);
         int left, right;
         int i = 0;
