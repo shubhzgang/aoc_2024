@@ -56,9 +56,45 @@ public class DayTwo {
         return isInc || isDec;
     }
 
+    private static boolean considerRemoval(List<Integer> level, int remove) {
+        List<Integer> newLevel = new ArrayList<>(level);
+        newLevel.remove(remove);
+        return isValidLevel(newLevel);
+    }
+
     private static void puzzleTwo(List<List<Integer>> levels) {
         int ans = 0;
-
+        boolean isAnyValid;
+        for (List<Integer> level : levels) {
+            isAnyValid = false;
+            if (isValidLevel(level)) {
+                ans++;
+                continue;
+            }
+            if (considerRemoval(level, 0)) {
+                ans++;
+                continue;
+            }
+            for (int i = 0; i < level.size() - 1; i++) {
+                int diff = level.get(i) - level.get(i + 1);
+                if (Math.abs(diff) < 1 || Math.abs(diff) > 3) {
+                    isAnyValid = isAnyValid || considerRemoval(level, i);
+                    isAnyValid = isAnyValid || considerRemoval(level, i + 1);
+                }
+                if (i + 2 < level.size()) {
+                    int diff2 = level.get(i + 1) - level.get(i + 2);
+                    if ((diff < 0) != (diff2 < 0)) {
+                        isAnyValid = isAnyValid || considerRemoval(level, i);
+                        isAnyValid = isAnyValid || considerRemoval(level, i + 1);
+                        isAnyValid = isAnyValid || considerRemoval(level, i + 2);
+                    }
+                }
+            }
+            if (isAnyValid) {
+                ans++;
+            }
+        }
+        System.out.println("puzzle two ans " + ans);
     }
 
     private static void puzzleOne(List<List<Integer>> levels) {
@@ -68,8 +104,8 @@ public class DayTwo {
             if (isValid) {
                 ans++;
             }
-            System.out.println(level + " : " + isValid);
+            //System.out.println(level + " : " + isValid);
         }
-        System.out.println(ans);
+        System.out.println("puzzle one ans " + ans);
     }
 }
