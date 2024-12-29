@@ -25,34 +25,50 @@ public class DayTwo {
         }
         //System.out.println(levels);
         puzzleOne(levels);
+        puzzleTwo(levels);
+    }
+
+    private static boolean isValidLevel(List<Integer> level) {
+        boolean isInc = false;
+        boolean isDec = false;
+        int n = level.size();
+        for (int i = 0; i < n - 1; i++) {
+            int diff = level.get(i) - level.get(i + 1);
+            if (diff > 0) {
+                isInc = true;
+                if (diff > 3) {
+                    return false;
+                }
+            }
+            if (diff < 0) {
+                isDec = true;
+                if (diff < -3) {
+                    return false;
+                }
+            }
+            if (diff == 0) {
+                return false;
+            }
+        }
+        if (isInc && isDec) {
+            return false;
+        }
+        return isInc || isDec;
+    }
+
+    private static void puzzleTwo(List<List<Integer>> levels) {
+        int ans = 0;
+
     }
 
     private static void puzzleOne(List<List<Integer>> levels) {
-        int n = levels.size();
         int ans = 0;
-        boolean increasing;
-        int first, second, diff;
         for (List<Integer> level : levels) {
-            // precheck
-            first = level.get(0);
-            second = level.get(1);
-            diff = Math.abs(first - second);
-            increasing = first < second;
-            int i = 2;
-            while (i < level.size() && diff > 0 && diff < 4) {
-                if (increasing) {
-                    diff = level.get(i) - level.get(i - 1);
-                } else {
-                    diff = level.get(i - 1) - level.get(i);
-                }
-                i++;
-            }
-            if (i == level.size() && diff > 0 && diff < 4) {
-                System.out.println(level + " " + increasing + " true");
+            boolean isValid = isValidLevel(level);
+            if (isValid) {
                 ans++;
-            } else {
-                System.out.println(level + " " + increasing + " false");
             }
+            System.out.println(level + " : " + isValid);
         }
         System.out.println(ans);
     }
